@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROOT CLUB | 日常玩机 · 远程服务</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(20, 20, 30, 0.6);
+            --primary: #00f3ff; /* 青色霓虹 */
+            --secondary: #bc13fe; /* 紫色霓虹 */
+            --text-main: #ffffff;
+            --text-sub: #a0a0a0;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --price-highlight: #00ff88;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(188, 19, 254, 0.1) 0%, transparent 20%);
+            color: var(--text-main);
+            font-family: 'Noto Sans SC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 背景网格动画 */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(40px); }
+        }
+
+        /* 头部区域 */
+        header {
+            text-align: center;
+            padding: 4rem 1rem 2rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--primary), #ffffff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            margin-bottom: 1rem;
+            animation: glitch 3s infinite;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-sub);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* 核心服务卡片 */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.15);
+            border-color: rgba(0, 243, 255, 0.3);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            filter: drop-shadow(0 0 5px var(--primary));
+        }
+
+        .card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        .card p {
+            color: var(--text-sub);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* --- 新增：价格表样式 --- */
+        .pricing-section {
+            width: 90%;
+            max-width: 1000px;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-table th {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            padding: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .pricing-table td {
+            padding: 1rem;
+            color: var(--text-sub);
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.95rem;
+        }
+
+        .pricing-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pricing-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .price-tag {
+            color: var(--price-highlight);
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+        }
+
+        .note {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* 群聊矩阵区域 */
+        .groups-section {
+            width: 90%;
+            max-width: 800px;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .group-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .group-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .group-item:hover {
+            background: rgba(0, 243, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        .group-info {
+            text-align: left;
+        }
+
+        .group-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            display: block;
+        }
+
+        .group-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 4px;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .copy-btn.copied {
+            background: #00ff88;
+            border-color: #00ff88;
+            color: #000;
+        }
+
+        /* --- 新增：底部联系方式样式 --- */
+        .contact-footer {
+            margin-top: auto;
+            padding: 3rem 1rem;
+            text-align: center;
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            min-width: 200px;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            border-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(188, 19, 254, 0.1);
+        }
+
+        .contact-label {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .contact-value {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            display: block;
+        }
+
+        .contact-value a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-value a:hover {
+            color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        .copyright {
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+            70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
+            100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 var(--secondary), -2px 0 var(--primary); }
+            2% { text-shadow: -2px 0 var(--secondary), 2px 0 var(--primary); }
+            4% { text-shadow: 2px 0 var(--secondary), -2px 0 var(--primary); }
+            6% { text-shadow: 0 0 0; }
+            100% { text-shadow: 0 0 0; }
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .services { grid-template-columns: 1fr; }
+            .group-item { flex-direction: column; text-align: center; gap: 1rem; }
+            .group-info { text-align: center; }
+            .pricing-table th, .pricing-table td { padding: 0.8rem 0.5rem; font-size: 0.85rem; }
+            .contact-grid { flex-direction: column; gap: 1rem; }
+            .contact-item { width: 100%; }
+        }
+        
+        /* 提示框 */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+
+    <header>
+        <div class="status-badge">
+            <span class="dot"></span>
+            24H 在线响应 | 远程服务
+        </div>
+        <h1>ROOT CLUB</h1>
+        <p class="subtitle">
+            专注 Android <span class="highlight">玩机</span> · <span class="highlight">系统刷机</span> · <span class="highlight">远程救砖</span><br>
+            打破厂商限制，释放设备潜能。这里是root 玩机的聚集地。
+        </p>
+    </header>
+
+    <section class="services">
+        <!-- 服务 1 -->
+        <div class="card">
+            <div class="icon">🔓</div>
+            <h3>Root</h3>
+            <p>提供主流机型 Root 方案，Magisk/KernelSU 模块，权限管理,掌控系统底层。</p>
+        </div>
+        <!-- 服务 2 -->
+        <div class="card">
+            <div class="icon">🔄</div>
+            <h3>线刷/卡刷</h3>
+            <p>原生安卓、类原生 ROM (LineageOS, PixelExperience) 刷入指导。解锁 Bootloader。</p>
+        </div>
+        <!-- 服务 3 -->
+        <div class="card">
+            <div class="icon">🚑</div>
+            <h3>远程救砖</h3>
+            <p>手机变砖？无限重启？进不去系统？远程协助-远程服务，EDL9008 模式修复，数据保留尝试。</p>
+        </div>
+        <!-- 服务 4 -->
+        <div class="card">
+            <div class="icon">⚡</div>
+            <h3>性能调优</h3>
+            <p>CPU/GPU 频率调整，温控解除，游戏帧率优化。</p>
+        </div>
+    </section>
+
+    <!-- 新增：价格表部分 -->
+    <section class="pricing-section">
+        <h2 class="section-title">服务价格表</h2>
+        <table class="pricing-table">
+            <thead>
+                <tr>
+                    <th>远程服务</th>
+                    <th> Bootloader</th>
+                    <th> root</th>
+                    <th>Bootloader15</th>
+                     <th>root20</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>🔓Bootloader Root 环境 </td>
+                    <td>含解锁 Bootloader +root Magisk/例如KSU 环境</td>
+                    <td class="price-tag">¥60 - 65</td>
+                </tr>
+                <tr>
+                    <td>🔄设备黑了-系统刷机 (线刷/卡刷)</td>
+                    <td>刷入第三方ROM/系统全量包 (自备或晓秋服务包含)</td>
+                    <td class="price-tag">¥ 40</td>
+                    <td>刷完机还要root/环境(提前说)</td>
+                    <td class="price-tag">¥ 40-60-95(刷机-root-环境/最后总价)</td>
+                </tr>
+                <tr>
+                    <td>💻 线刷救砖 (普通)</td>
+                    <td>Fastboot/Recovery 模式修复</td>
+                    <td class="price-tag">¥ 45 - 50</td>
+                </tr>
+                <tr>
+                    <td>🚑 深度救砖 (EDL)</td>
+                    <td>9008 模式 / 复杂变砖</td>
+                    <td class="price-tag">¥ 60 - 100+</td>
+                </tr>
+                <tr>
+                    <td>⚡ 性能/功耗优化</td>
+                    <td>内核调参 / 温控移除 / 游戏稳帧</td>
+                    <td class="price-tag">¥ 30 - 60</td>
+                </tr>
+                <tr>
+                    <td>🛠️ 定制服务</td>
+                    <td>去除厂商云控 / 定制开机动画等</td>
+                    <td class="price-tag">面议</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="note">* 价格仅供参考，具体费用视机型难度、数据保留需求及故障复杂程度而定。请先联系咨询评估。</p>
+    </section>
+
+    <section class="groups-section">
+        <h2 class="section-title">加入组织</h2>
+        <p style="color: var(--text-sub); margin-bottom: 1.5rem;">点击右侧按钮复制群号，添加后请备注来意</p>
+        
+        <div class="group-list">
+            <div class="group-item" onclick="copyToClipboard('1073751192', this)">
+                <div class="group-info">
+                    <span class="group-name">🌟 ROOT CLUB 总群</span>
+                    <span class="group-desc">核心社区 · 资源发布 · 大佬云集</span>
+                </div>
+                <button class="copy-btn">1073751192</button>
+            </div>
+
+            <div class="group-item" onclick="copyToClipboard('1045182095', this)">
+                <div class="group-info">
+                    <span class="group-name">🚀 二群 (推荐)</span>
+                    <span class="group-desc">玩机 · 交流</span>
+                </div>
+                <button class="copy-btn">1045182095</button>
+            </div>
+
+            <div class="group-item" onclick="copyToClipboard('1076087964', this)">
+                <div class="group-info">
+                    <span class="group-name">🛠️ 三群 (推荐)</span>
+                    <span class="group-desc">玩机 · 交流</span>
+                </div>
+                <button class="copy-btn">1076087964</button>
+            </div>
+            
+            <div class="group-item" onclick="copyToClipboard('909889014', this)">
+                <div class="group-info">
+                    <span class="group-name">💬 四群 (备用)</span>
+                    <span class="group-desc">日常 · 闲聊</span>
+                </div>
+                <button class="copy-btn">909889014</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 新增：底部详细联系方式 -->
+    <footer class="contact-footer">
+        <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;">联系我们</h2>
+        
+        <div class="contact-grid">
+            <div class="contact-item">
+                <span class="contact-label">QQ 晓秋 (主要)</span>
+                <span class="contact-value">2693912868</span>
+                <small style="color:var(--text-sub); font-size:0.7rem;">3777277357</small>
+            </div>
+            
+            <div class="contact-item">
+                <span class="contact-label">微信 晓秋</span>
+                <span class="contact-value">QLanX-2008</span>
+                <small style="color:var(--text-sub); font-size:0.7rem;">(已替换为真实微信)</small>
+            </div>
+
+            <div class="contact-item">
+                <span class="contact-label">电子邮箱</span>
+                <span class="contact-value"><a href="q2693912868@qq.com">q2693912868@qq.com</a></span>
+            </div>
+
+            <div class="contact-item">
+                <span class="contact-label">服务时间</span>
+                <span class="contact-value" style="font-family: 'Noto Sans SC', sans-serif; font-size: 1rem;">10:00 - 24:00</span>
+                <small style="color:var(--text-sub); font-size:0.7rem;">(紧急 24H 响应)</small>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>© 2024-2026 ROOT CLUB. All Rights Reserved.</p>
+            <p style="margin-top: 8px; opacity: 0.6;">Warning: Rooting your device may void warranty. Proceed with caution.</p>
+        </div>
+    </footer>
+
+    <div id="toast" class="toast">群号已复制！快去 QQ 搜索添加吧</div>
+
+    <script>
+        function copyToClipboard(text, element) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); 
+            
+            try {
+                document.execCommand('copy');
+                
+                const btn = element.querySelector('.copy-btn');
+                const originalText = btn.innerText;
+                
+                btn.innerText = '已复制!';
+                btn.classList.add('copied');
+                
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('copied');
+                    toast.classList.remove('show');
+                }, 2000);
+                
+            } catch (err) {
+                alert('复制失败，请手动复制：' + text);
+            } finally {
+                document.body.removeChild(tempInput);
+            }
+        }
+    </script>
+</body>
+</html>
